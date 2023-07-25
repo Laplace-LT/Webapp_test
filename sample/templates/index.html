@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang = "ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>プロ棋士レーティング</title>
+    </head>
+    <body>
+        <h1>棋士一覧</h1>
+        <form action="{{ url_for('calculate')}}" method="POST" enctype="multipart/form-data">
+            <table>
+                <tr>
+                    <th>対局者１</th>
+                    <th>対局者２</th>
+                    <th>番勝負数</th>
+                </tr>
+                <tr>
+                    <th><input type="text" name="name1"></th>
+                    <th><input type="text" name="name2"></th>
+                    <th><input type="submit" value="計算"></th>
+                </tr>
+            </table>
+        </form>
+        {% if rate_show == True %}
+        <h2>{{ kishi1 }}の{{ kishi2 }}に対する勝率</h2>
+        <table>
+            <tr>
+                <th>1局</th>
+                <th>３番勝負</th>
+                <th>５番勝負</th>
+                <th>７番勝負</th>
+            </tr>
+            <tr>
+                <th>{{ rate[0] }}</th>
+                <th>{{ rate[1] }}</th>
+                <th>{{ rate[2] }}</th>
+                <th>{{ rate[3] }}</th>
+            </tr>
+        </table>
+        {% endif %}
+        <h2>{{ error_msg }}</h2>
+        <h2>レーティング</h2>
+            {% if data == [] %}
+                <p>データがありません</p>
+            {% else %}
+                <table border="2">
+                    <tr>
+                        <th>名前</th>
+                        <th>レーティング</th>
+                    </tr>
+                    {% for info in data %}
+                        <tr>
+                            <td>{{ info.name }}</td>
+                            <td>{{ info.rating }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        <a href="{{ url_for('sub') }}">編集</a>
+    </body>
+</html>
